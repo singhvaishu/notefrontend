@@ -2,7 +2,7 @@
 import axios from 'axios';
 
 const api = axios.create({
-    baseURL: 'https://notebackend-y5w9.vercel.app',
+    baseURL: 'https://notebackend-y5w9.vercel.app/api',
 });
 
 // Attach the token to each request if it exists
