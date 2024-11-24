@@ -40,17 +40,17 @@ const Navbar = () => {
                 {/* Desktop Navigation */}
                 <ul className="hidden md:flex gap-x-6 text-white">
                     <li>
-                        <a href="/about" className="hover:text-red-300">
+                        <a href="/" className="hover:text-red-300">
                             About Us
                         </a>
                     </li>
                     <li>
-                        <a href="/services" className="hover:text-red-300">
+                        <a href="/" className="hover:text-red-300">
                             Services
                         </a>
                     </li>
                     <li>
-                        <a href="/contacts" className="hover:text-red-300">
+                        <a href="/" className="hover:text-red-300">
                             Contacts
                         </a>
                     </li>
@@ -97,13 +97,13 @@ const Navbar = () => {
             <div className="md:hidden bg-gray-500 text-white px-4">
                 <ul className="flex flex-col gap-y-2 py-4">
                     <li>
-                        <a href="/about">About Us</a>
+                        <a href="/">About Us</a>
                     </li>
                     <li>
-                        <a href="/services">Services</a>
+                        <a href="/">Services</a>
                     </li>
                     <li>
-                        <a href="/contacts">Contacts</a>
+                        <a href="/">Contacts</a>
                     </li>
                     {!token ? (
                         <>
