@@ -148,23 +148,7 @@ const Signup = () => {
                                     </a>
                                 </p>
                             </div>
-                            <div className="mt-5 p-6 rounded-lg shadow-md bg-gray-200 text-center">
-                                <h6 className="text-lg font-medium mb-3">Details</h6>
-                                <p className="text-base">
-                                    <strong>Username:</strong> vaishali
-                                </p>
-                                <p className="text-base">
-                                    <strong>Email:</strong> vaishali123@gmail.com
-                                </p>
-                                <p className="text-base">
-                                    <strong>Password:</strong> vai1234@
-                                </p>
-
-                                {/* Note to guide user */}
-                                <p className="text-sm mt-4 text-gray-600">
-                                    Note: To check the functionality, please go to the login page and log in with the existing details.
-                                </p>
-                            </div>
+                           
 
                         </main>
                     </div>
