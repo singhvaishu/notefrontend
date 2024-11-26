@@ -21,11 +21,8 @@ function AddTodoModal({ onSave, initialData, onClose }) {
 
     const handleSave = () => {
         if (title && description) {
-            onSave({ title, description, status });
+            onSave({ ...initialData, title, description, status });
         }
-        setTitle("");
-        setDescription("");
-        setStatus("Pending");
     };
 
     return (
@@ -78,55 +75,3 @@ function AddTodoModal({ onSave, initialData, onClose }) {
 
 export default AddTodoModal;
 
-// import React, { useState } from 'react';
-
-// const AddTodo = ({ onSave }) => {
-//     const [title, setTitle] = useState('');
-//     const [description, setDescription] = useState('');
-//     const [status, setStatus] = useState('Pending');
-
-//     const handleSubmit = (e) => {
-//         e.preventDefault();
-//         onSave({ title, description, status });
-//         setTitle('');
-//         setDescription('');
-//         setStatus('Pending');
-//     };
-
-//     return (
-//         <form onSubmit={handleSubmit}>
-//             <h2>Add New Todo</h2>
-//             <div>
-//                 <label>Title:</label>
-//                 <input
-//                     type="text"
-//                     value={title}
-//                     onChange={(e) => setTitle(e.target.value)}
-//                     required
-//                 />
-//             </div>
-//             <div>
-//                 <label>Description:</label>
-//                 <textarea
-//                     value={description}
-//                     onChange={(e) => setDescription(e.target.value)}
-//                     required
-//                 />
-//             </div>
-//             <div>
-//                 <label>Status:</label>
-//                 <select
-//                     value={status}
-//                     onChange={(e) => setStatus(e.target.value)}
-//                 >
-//                     <option value="Pending">Pending</option>
-//                     <option value="In Progress">In Progress</option>
-//                     <option value="Completed">Completed</option>
-//                 </select>
-//             </div>
-//             <button type="submit">Save Todo</button>
-//         </form>
-//     );
-// };
-
-// export default AddTodo;
