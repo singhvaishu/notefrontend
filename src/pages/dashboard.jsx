@@ -1,20 +1,17 @@
 
-
-
-
-
-
-
-
 import React, { useState, useEffect } from "react";
 import TodoCard from "../components/todocard";
 import AddTodoModal from "../components/addtodo";
 import { fetchTodos, createTodo, updateTodo, deleteTodo } from "../utils/apiClient";
+
 const Dashboard = () => {
     const [todos, setTodos] = useState([]);
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState(null);
     const [searchQuery, setSearchQuery] = useState("");
+    const [editingTodo, setEditingTodo] = useState(null);
+    const [showModal, setShowModal] = useState(false);
+
     useEffect(() => {
         const loadTodos = async () => {
             try {
@@ -22,12 +19,11 @@ const Dashboard = () => {
                 const fetchedTodos = await fetchTodos();
                 setTodos(fetchedTodos);
             } catch (err) {
-                setError('Error fetching todos');
+                setError("Error fetching todos");
             } finally {
                 setLoading(false);
             }
         };
-
         loadTodos();
     }, []);
 
@@ -35,44 +31,41 @@ const Dashboard = () => {
         try {
             let newOrUpdatedTodo;
             if (todoData._id) {
-
+                // Update existing todo
                 newOrUpdatedTodo = await updateTodo(todoData._id, todoData);
             } else {
-
+                // Create new todo
                 newOrUpdatedTodo = await createTodo(todoData);
             }
 
-
             setTodos((prevTodos) => {
                 if (todoData._id) {
-
                     return prevTodos.map((todo) =>
                         todo._id === todoData._id ? newOrUpdatedTodo : todo
                     );
                 } else {
-
                     return [...prevTodos, newOrUpdatedTodo];
                 }
             });
         } catch (err) {
-            setError('Error saving todo');
+            setError("Error saving todo");
         }
+        setShowModal(false);
+        setEditingTodo(null);
     };
 
     const handleDelete = async (id) => {
         try {
             await deleteTodo(id);
-            // Remove the deleted todo from the list
             setTodos((prevTodos) => prevTodos.filter((todo) => todo._id !== id));
         } catch (err) {
-            setError('Error deleting todo');
+            setError("Error deleting todo");
         }
     };
 
     if (loading) return <div>Loading...</div>;
     if (error) return <div>{error}</div>;
 
-    // Filter Todos based on search query
     const filteredTodos = todos.filter((todo) =>
         todo.title.toLowerCase().includes(searchQuery.toLowerCase())
     );
@@ -83,15 +76,18 @@ const Dashboard = () => {
                 <div className="hidden lg:block bg-white p-6 rounded-lg shadow">
                     <h2 className="text-2xl font-bold mb-4 text-gray-800">Add or Edit Task</h2>
                     <AddTodoModal
-                        onClose={() => setEditingTodo(null)}
+                        onClose={() => {
+                            setEditingTodo(null);
+                            setShowModal(false);
+                        }}
                         onSave={handleCreateOrUpdate}
-                    // initialData={editingTodo}
+                        initialData={editingTodo}
                     />
                 </div>
 
                 <div>
                     <h1 className="text-3xl font-bold text-gray-800 mb-4">To-Do Dashboard</h1>
-                    <div className="lg:hidden flex items-center mb-6">
+                    <div className="flex items-center mb-6">
                         <input
                             type="text"
                             placeholder="Search tasks by title"
@@ -105,16 +101,6 @@ const Dashboard = () => {
                         >
                             +
                         </button>
-                    </div>
-                    {/* Search Bar - Large Screens Only */}
-                    <div className="hidden lg:flex mb-6">
-                        <input
-                            type="text"
-                            placeholder="Search tasks by title"
-                            value={searchQuery}
-                            onChange={(e) => setSearchQuery(e.target.value)}
-                            className="w-full lg:w-[100%] border rounded-lg px-4 py-2 text-gray-700 focus:outline-none focus:ring-2 focus:ring-blue-500 lg:mr-4"
-                        />
                     </div>
 
                     <div className="grid gap-4 grid-cols-1">
@@ -133,15 +119,21 @@ const Dashboard = () => {
                 </div>
             </div>
 
-            <button
-                onClick={() => setTodos([])}
-                className="mt-6 bg-red-500 text-white px-4 py-2 rounded-lg shadow hover:bg-red-600 w-full lg:hidden"
-            >
-                Clear All
-            </button>
+            {showModal && (
+                <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
+                    <div className="bg-white p-6 rounded-lg shadow-lg w-full max-w-md">
+                        <AddTodoModal
+                            onSave={handleCreateOrUpdate}
+                            initialData={editingTodo}
+                            onClose={() => setShowModal(false)}
+                        />
+                    </div>
+                </div>
+            )}
         </div>
     );
-}
+};
 
 export default Dashboard;
+
 
